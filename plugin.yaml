@@ -1,0 +1,18 @@
+name: sappiens-wallet
+version: 0.1.0
+description: Pair with Sappiens Wallet over the relay protocol; build chain proposals from bundled SKILLs (Nyx first).
+author: hermes-sappiens
+requires_env:
+  - SAPPENS_AGENT_ED25519_SEED
+provides_tools:
+  - sappiens_pair
+  - sappiens_status
+  - sappiens_skills
+  - sappiens_send
+  - sappiens_claim_rewards
+  - sappiens_propose_raw
+python_dependencies:
+  - cryptography>=42,<46
+  - httpx>=0.27,<1
+  - cbor2>=5.4,<6
+  - PyYAML>=6,<7

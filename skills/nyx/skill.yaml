@@ -1,0 +1,16 @@
+name: nyx
+chain_id: nyx
+display_name: Nyx (Nym)
+bech32_prefix: n
+denom: unym
+rpc: https://rpc.nyx.nodes.guru
+lcd: https://api.nyx.nodes.guru
+builder: nyx
+operations:
+  send_tokens:
+    kind: cosmos_msgsend
+  claim_node_rewards:
+    kind: cosmwasm_execute
+    contract: n17srjznxl9dvzdkpwpw24gg668wc73val88a6m5ajg6ankwvz9wtst0cznr
+    msg:
+      withdraw_operator_reward: {}
