@@ -12,7 +12,7 @@ Keys never enter Hermes. The wallet holds custody; this plugin only seals cipher
 | Dependency | Purpose |
 | --- | --- |
 | Hermes Agent | Host (`plugin.yaml` + `register(ctx)`) |
-| Sappiens relay | Registration + envelopes (`SAPPENS_RELAY_URL`) |
+| Sappiens relay | Registration + envelopes (`SAPPIENS_RELAY_URL`) |
 | Sappiens Wallet | Scan QR, approve, sign, broadcast |
 | Builtin Cosmos plugin in wallet | Provides `chain_id: nyx` |
 
@@ -39,11 +39,13 @@ pytest -q
 
 | Variable | Required | Meaning |
 | --- | --- | --- |
-| `SAPPENS_AGENT_ED25519_SEED` | yes | base64url-no-pad 32-byte Ed25519 seed |
-| `SAPPENS_RELAY_URL` | no | default `http://127.0.0.1:8080` |
-| `SAPPENS_ADVERTISE_RELAY` | no | URL sealed into the QR (wallet-reachable) |
-| `SAPPENS_DISPLAY_NAME` | no | default `Hermes Sappiens Agent` |
-| `SAPPENS_STATE_PATH` | no | override pairing state JSON path |
+| `SAPPIENS_AGENT_ED25519_SEED` | yes | base64url-no-pad 32-byte Ed25519 seed |
+| `SAPPIENS_RELAY_URL` | no | default `http://127.0.0.1:8080` |
+| `SAPPIENS_ADVERTISE_RELAY` | no | URL sealed into the QR (wallet-reachable) |
+| `SAPPIENS_DISPLAY_NAME` | no | default `Hermes Sappiens Agent` |
+| `SAPPIENS_STATE_PATH` | no | override pairing state JSON path |
+
+Relay URLs can also be set in Hermes **Settings → Plugins → sappiens-wallet** (`relay_url`, `advertise_relay`). Plugin settings override the matching env vars.
 
 Generate a seed:
 
@@ -78,7 +80,7 @@ First skill: **nyx** (Nyx / Nym). Adding a chain = new skill directory + `sappie
 ## Happy path
 
 1. Start Sappiens relay (`deploy/podman` in the wallet repo).
-2. Set `SAPPENS_AGENT_ED25519_SEED` and enable the plugin.
+2. Set `SAPPIENS_AGENT_ED25519_SEED` and enable the plugin.
 3. In Hermes: “Pair with Sappiens” → show URI as QR → confirm on phone.
 4. “Send 1 NYM from n1… to n1…” → approve Hermes prompt → approve in wallet.
 5. “Claim my Nym node rewards for n1…” → same dual gates.

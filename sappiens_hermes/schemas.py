@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-SAPPENS_PAIR = {
+SAPPIENS_PAIR = {
     "name": "sappiens_pair",
     "description": (
         "Create a Sappiens Wallet registration offer and return the "
@@ -24,13 +24,13 @@ SAPPENS_PAIR = {
     },
 }
 
-SAPPENS_STATUS = {
+SAPPIENS_STATUS = {
     "name": "sappiens_status",
     "description": "Show Sappiens pairing status, relay URL, and loaded chain SKILLs.",
     "parameters": {"type": "object", "properties": {}},
 }
 
-SAPPENS_SKILLS = {
+SAPPIENS_SKILLS = {
     "name": "sappiens_skills",
     "description": (
         "List chain SKILLs discovered from skills/*/skill.yaml "
@@ -48,7 +48,7 @@ SAPPENS_SKILLS = {
     },
 }
 
-SAPPENS_SEND = {
+SAPPIENS_SEND = {
     "name": "sappiens_send",
     "description": (
         "Build a completable Nyx (or skill-selected) MsgSend SignDoc proposal, "
@@ -91,7 +91,7 @@ SAPPENS_SEND = {
     },
 }
 
-SAPPENS_CLAIM_REWARDS = {
+SAPPIENS_CLAIM_REWARDS = {
     "name": "sappiens_claim_rewards",
     "description": (
         "Build a Nyx mixnet withdraw_operator_reward (claim Nym node rewards) "
@@ -123,7 +123,7 @@ SAPPENS_CLAIM_REWARDS = {
     },
 }
 
-SAPPENS_PROPOSE_RAW = {
+SAPPIENS_PROPOSE_RAW = {
     "name": "sappiens_propose_raw",
     "description": (
         "Expert path: submit a caller-built dual presentation with base64url "

@@ -14,7 +14,7 @@ from sappiens_hermes import b64
 from sappiens_hermes.errors import ConfigError
 
 AGENT_ID_PREFIX = "ed25519:"
-SEED_ENV = "SAPPENS_AGENT_ED25519_SEED"
+SEED_ENV = "SAPPIENS_AGENT_ED25519_SEED"
 
 
 @dataclass(frozen=True)

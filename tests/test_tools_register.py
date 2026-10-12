@@ -53,9 +53,9 @@ def test_register_wires_tools_skills_hook():
 def test_status_with_seed(tmp_path: Path, monkeypatch):
     identity = AgentIdentity.from_seed(bytes([21] * 32))
     seed = b64.encode(identity.private_key.private_bytes_raw())
-    monkeypatch.setenv("SAPPENS_AGENT_ED25519_SEED", seed)
-    monkeypatch.setenv("SAPPENS_STATE_PATH", str(tmp_path / "state.json"))
-    monkeypatch.setenv("SAPPENS_RELAY_URL", "http://127.0.0.1:8080")
+    monkeypatch.setenv("SAPPIENS_AGENT_ED25519_SEED", seed)
+    monkeypatch.setenv("SAPPIENS_STATE_PATH", str(tmp_path / "state.json"))
+    monkeypatch.setenv("SAPPIENS_RELAY_URL", "http://127.0.0.1:8080")
     out = json.loads(tools.sappiens_status({}))
     assert out["ok"] is True
     assert out["agent_id"].startswith("ed25519:")

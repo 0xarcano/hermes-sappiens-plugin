@@ -3,7 +3,18 @@ version: 0.1.0
 description: Pair with Sappiens Wallet over the relay protocol; build chain proposals from bundled SKILLs (Nyx first).
 author: hermes-sappiens
 requires_env:
-  - SAPPENS_AGENT_ED25519_SEED
+  - SAPPIENS_AGENT_ED25519_SEED
+config_schema:
+  relay_url:
+    type: str
+    default: "http://127.0.0.1:8080"
+    label: "Relay URL"
+    description: "Agent-reachable Sappiens relay origin (SAPPIENS_RELAY_URL)"
+  advertise_relay:
+    type: str
+    default: ""
+    label: "Advertise relay URL"
+    description: "Wallet-facing relay origin sealed into the QR; leave empty to use Relay URL (SAPPIENS_ADVERTISE_RELAY)"
 provides_tools:
   - sappiens_pair
   - sappiens_status

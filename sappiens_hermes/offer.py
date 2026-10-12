@@ -186,6 +186,24 @@ def validate_relay_base_url(url: str) -> None:
         raise ProtocolError("relay_base_url missing host")
     if scheme == "https":
         return
-    if scheme == "http" and host in ("localhost", "127.0.0.1", "[::1]", "10.0.2.2"):
+    if scheme == "http" and _is_dev_http_relay_host(host):
         return
-    raise ProtocolError("relay_base_url must be https (http only for loopback)")
+    raise ProtocolError(
+        "relay_base_url must be https (http only for loopback/RFC1918 LAN)"
+    )
+
+
+def _is_dev_http_relay_host(host: str) -> bool:
+    if host in ("localhost", "127.0.0.1", "[::1]", "10.0.2.2"):
+        return True
+    parts = host.split(".")
+    if len(parts) != 4:
+        return False
+    try:
+        octets = [int(p) for p in parts]
+    except ValueError:
+        return False
+    if any(o < 0 or o > 255 for o in octets):
+        return False
+    a, b = octets[0], octets[1]
+    return a == 10 or (a == 172 and 16 <= b <= 31) or (a == 192 and b == 168)

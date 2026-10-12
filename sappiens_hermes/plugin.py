@@ -6,6 +6,7 @@ import logging
 from pathlib import Path
 
 from sappiens_hermes import schemas, tools
+from sappiens_hermes.config import bind_config_getter
 from sappiens_hermes.skill_loader import discover_skills, skills_dir
 
 logger = logging.getLogger(__name__)
@@ -15,19 +16,26 @@ TOOLSET = "sappiens-wallet"
 
 def register(ctx) -> None:
     """Wire tools, write-approval hook, and bundled chain skills."""
+    if hasattr(ctx, "get_config"):
+        bind_config_getter(
+            lambda key, default=None: ctx.get_config(key, default=default)
+        )
+    else:
+        bind_config_getter(None)
+
     registrations = [
-        ("sappiens_pair", schemas.SAPPENS_PAIR, tools.sappiens_pair),
-        ("sappiens_status", schemas.SAPPENS_STATUS, tools.sappiens_status),
-        ("sappiens_skills", schemas.SAPPENS_SKILLS, tools.sappiens_skills),
-        ("sappiens_send", schemas.SAPPENS_SEND, tools.sappiens_send),
+        ("sappiens_pair", schemas.SAPPIENS_PAIR, tools.sappiens_pair),
+        ("sappiens_status", schemas.SAPPIENS_STATUS, tools.sappiens_status),
+        ("sappiens_skills", schemas.SAPPIENS_SKILLS, tools.sappiens_skills),
+        ("sappiens_send", schemas.SAPPIENS_SEND, tools.sappiens_send),
         (
             "sappiens_claim_rewards",
-            schemas.SAPPENS_CLAIM_REWARDS,
+            schemas.SAPPIENS_CLAIM_REWARDS,
             tools.sappiens_claim_rewards,
         ),
         (
             "sappiens_propose_raw",
-            schemas.SAPPENS_PROPOSE_RAW,
+            schemas.SAPPIENS_PROPOSE_RAW,
             tools.sappiens_propose_raw,
         ),
     ]
