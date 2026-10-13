@@ -19,7 +19,7 @@ This zeroes accrued operator rewards and transfers them to the operator address 
 
 | Field | Default |
 |-------|---------|
-| fee_amount | `5000` unym |
+| fee_amount | `11000` unym (derived: min 0.025 unym/gas × gas + ~10% headroom) |
 | gas_limit | `400000` |
 
 ## Out of scope (this skill version)

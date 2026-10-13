@@ -21,7 +21,7 @@
 |-------|---------|
 | LCD | `https://api.nyx.nodes.guru` |
 | RPC (wallet broadcast) | `https://rpc.nyx.nodes.guru` |
-| fee_amount | `5000` unym |
+| fee_amount | `6875` unym (derived: min 0.025 unym/gas × gas + ~10% headroom) |
 | gas_limit | `250000` |
 
 ## Tool example

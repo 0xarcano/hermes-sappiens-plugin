@@ -13,6 +13,13 @@ from sappiens_hermes.cosmos.protobuf import (
 from sappiens_hermes.skill_loader import SkillRegistry, discover_skills
 
 
+def test_default_fee_amount_meets_nyx_minimum():
+    assert int(nyx_builder.default_fee_amount(250_000)) >= 6250
+    assert int(nyx_builder.default_fee_amount(400_000)) >= 10_000
+    assert nyx_builder.default_fee_amount(250_000) == "6875"
+    assert nyx_builder.default_fee_amount(400_000) == "11000"
+
+
 def test_discover_nyx_skill():
     skills = discover_skills()
     assert any(s.name == "nyx" for s in skills)
@@ -80,6 +87,7 @@ def test_nyx_send_tokens_builder_uses_lcd_mock():
     assert b"/cosmos.bank.v1beta1.MsgSend" in presentation.technical.sign_payload
     assert presentation.technical.payload_fields["account_number"] == "7"
     assert presentation.technical.payload_fields["sequence"] == "3"
+    assert int(presentation.technical.payload_fields["fee_amount"]) >= 6250
 
 
 def test_nyx_claim_builder():
@@ -93,4 +101,5 @@ def test_nyx_claim_builder():
         )
     assert presentation.technical.destination.startswith("n17")
     assert b"/cosmwasm.wasm.v1.MsgExecuteContract" in presentation.technical.sign_payload
+    assert int(presentation.technical.payload_fields["fee_amount"]) >= 10_000
     assert "claim" in presentation.human.action.lower() or "reward" in presentation.human.action.lower()

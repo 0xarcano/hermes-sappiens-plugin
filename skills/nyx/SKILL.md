@@ -32,7 +32,9 @@ amount: <unym integer string>   # 1 NYM = 1000000 unym
 skill: nyx                      # default
 ```
 
-Optional: `fee_amount`, `gas_limit`, `lcd`, `pubkey_hex`, `summary`.
+Optional: `fee_amount`, `gas_limit`, `lcd`, `pubkey_hex`, `summary`. If omitted,
+`fee_amount` is computed from Nyx min gas price (0.025 unym/gas) plus headroom for
+the chosen `gas_limit`.
 
 Details: `references/send-tokens.md`
 

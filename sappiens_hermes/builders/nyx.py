@@ -18,8 +18,26 @@ from sappiens_hermes.presentation import (
 )
 
 DEFAULT_GAS_LIMIT = 250_000
-DEFAULT_FEE_AMOUNT = "5000"
 CLAIM_GAS_LIMIT = 400_000
+
+# Nyx enforces min gas price 0.025 unym (e.g. 6250 unym for 250k gas).
+_NYX_MIN_GAS_PRICE_NUM = 25
+_NYX_MIN_GAS_PRICE_DEN = 1000
+_FEE_HEADROOM_NUM = 11
+_FEE_HEADROOM_DEN = 10
+
+
+def default_fee_amount(gas_limit: int) -> str:
+    """Minimum fee for [gas_limit] on Nyx, with ~10% headroom above chain minimum."""
+    if gas_limit <= 0:
+        raise BuilderError("gas_limit must be positive")
+    minimum = (
+        gas_limit * _NYX_MIN_GAS_PRICE_NUM + _NYX_MIN_GAS_PRICE_DEN - 1
+    ) // _NYX_MIN_GAS_PRICE_DEN
+    with_headroom = (
+        minimum * _FEE_HEADROOM_NUM + _FEE_HEADROOM_DEN - 1
+    ) // _FEE_HEADROOM_DEN
+    return str(with_headroom)
 
 
 def _resolve_pubkey(account_pubkey: bytes | None, pubkey_hex: str | None) -> bytes | None:
@@ -51,9 +69,9 @@ def send_tokens(skill: Any, params: dict[str, Any]) -> ProposalPresentation:
         raise BuilderError("amount must be a positive integer string in subunits")
 
     denom = str(params.get("denom") or skill.denom)
-    fee_amount = str(params.get("fee_amount") or DEFAULT_FEE_AMOUNT)
-    fee_denom = str(params.get("fee_denom") or denom)
     gas_limit = int(params.get("gas_limit") or DEFAULT_GAS_LIMIT)
+    fee_amount = str(params.get("fee_amount") or default_fee_amount(gas_limit))
+    fee_denom = str(params.get("fee_denom") or denom)
     lcd = str(params.get("lcd") or skill.lcd)
     chain_id = skill.chain_id
     pubkey_hex = params.get("pubkey_hex")
@@ -119,9 +137,9 @@ def claim_node_rewards(skill: Any, params: dict[str, Any]) -> ProposalPresentati
     msg_json = json.dumps(msg_obj, separators=(",", ":"), sort_keys=True).encode("utf-8")
 
     denom = str(params.get("denom") or skill.denom)
-    fee_amount = str(params.get("fee_amount") or DEFAULT_FEE_AMOUNT)
-    fee_denom = str(params.get("fee_denom") or denom)
     gas_limit = int(params.get("gas_limit") or CLAIM_GAS_LIMIT)
+    fee_amount = str(params.get("fee_amount") or default_fee_amount(gas_limit))
+    fee_denom = str(params.get("fee_denom") or denom)
     lcd = str(params.get("lcd") or skill.lcd)
     chain_id = skill.chain_id
     pubkey_hex = params.get("pubkey_hex")
